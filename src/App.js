@@ -10,30 +10,27 @@ import ShopPage from "./pages/shop/shop";
 import AuthPage from "./pages/authentication/authentication";
 import { auth, createUserProfile } from "./utils/firebase/firebase";
 import { setCurrentUser } from "./redux/user/user-actions";
+import { selectCurrentUser } from "./redux/user/user-selector";
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentUser: null,
-    };
-  }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userRef = await createUserProfile(user);
-        userRef.onSnapshot((snapshot) => {
-          this.props.setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
+    const { setCurrentUser } = this.props;
+
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfile(userAuth);
+
+        userRef.onSnapshot((snapShot) => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
           });
         });
       }
 
-      this.props.setCurrentUser({ user });
+      setCurrentUser(userAuth);
     });
   }
 
@@ -51,13 +48,9 @@ class App extends Component {
           <Route
             exact
             path="/auth"
-            render={() => {
-              return this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <AuthPage />
-              );
-            }}
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <AuthPage />
+            }
           />
         </Switch>
       </div>
@@ -67,7 +60,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.user.currentUser,
+    currentUser: selectCurrentUser(state),
   };
 };
 
