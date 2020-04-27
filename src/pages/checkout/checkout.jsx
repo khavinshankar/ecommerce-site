@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import "./checkout.scss";
+import {
+  CheckoutPageContainer,
+  CheckoutHeaderContainer,
+  HeaderBlockContainer,
+  TotalContainer,
+} from "./checkout.styles";
 import CheckoutItem from "../../components/checkout-item/checkout-item";
 import PayButton from "../../components/pay-button/pay-button";
 import {
@@ -12,33 +17,33 @@ import {
 
 const CheckoutPage = ({ items, cartTotal }) => {
   return (
-    <div className="checkout-page">
-      <div className="checkout-header">
-        <div className="header-block">
+    <CheckoutPageContainer>
+      <CheckoutHeaderContainer>
+        <HeaderBlockContainer>
           <span>Product</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
           <span>Description</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
           <span>Quantity</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
           <span>Price</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
           <span>Remove</span>
-        </div>
-      </div>
+        </HeaderBlockContainer>
+      </CheckoutHeaderContainer>
       {items.map((item) => {
         return <CheckoutItem key={item.id} item={item} />;
       })}
 
-      <div className="total">
+      <TotalContainer>
         <span>TOTAL: {cartTotal}</span>
-      </div>
+      </TotalContainer>
       {!cartTotal ? <PayButton price={cartTotal} /> : null}
-    </div>
+    </CheckoutPageContainer>
   );
 };
 

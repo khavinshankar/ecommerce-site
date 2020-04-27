@@ -1,7 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import "./shop.scss";
 import CollectionsOverview from "../../components/collections-overview/collections-overview";
 import CollectionPage from "../collection/collection";
 
