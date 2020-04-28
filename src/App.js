@@ -9,35 +9,20 @@ import HomePage from "./pages/home/home";
 import ShopPage from "./pages/shop/shop";
 import AuthPage from "./pages/authentication/authentication";
 import CheckoutPage from "./pages/checkout/checkout";
-import { auth, createUserProfile } from "./utils/firebase/firebase";
-import { setCurrentUser } from "./redux/user/user-actions";
 import { selectCurrentUser } from "./redux/user/user-selector";
+import { checkUserSession } from "./redux/user/user-actions";
 
 class App extends Component {
-  unsubscribeFromAuth = null;
+  // unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfile(userAuth);
-
-        userRef.onSnapshot((snapShot) => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data(),
-          });
-        });
-      }
-
-      setCurrentUser(userAuth);
-    });
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+  // componentWillUnmount() {
+  //   this.unsubscribeFromAuth();
+  // }
 
   render() {
     return (
@@ -68,8 +53,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCurrentUser: (user) => {
-      return dispatch(setCurrentUser(user));
+    checkUserSession: () => {
+      return dispatch(checkUserSession());
     },
   };
 };
