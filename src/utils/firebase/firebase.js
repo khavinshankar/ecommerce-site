@@ -31,7 +31,7 @@ export const createUserProfile = async (user, addtionalData) => {
         ...addtionalData,
       });
     } catch (error) {
-      alert("Error in creating user");
+      console.log(error.message);
     }
   }
 
