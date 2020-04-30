@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-import "./App.css";
-
+import { GlobalStyles } from "./master.styles";
 import Header from "./components/header/header";
 import HomePage from "./pages/home/home";
 import ShopPage from "./pages/shop/shop";
@@ -21,6 +20,7 @@ const App = (props) => {
 
   return (
     <div>
+      <GlobalStyles />
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
