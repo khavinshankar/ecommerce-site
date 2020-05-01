@@ -15,6 +15,24 @@ import {
   selectCartTotal,
 } from "../../redux/cart/cart-selector";
 
+//Paytm Integration Front-end code
+/***
+const handleClick = async () => {
+  const resp = await axios({
+    url: "http://localhost:5000/payment",
+    method: "post",
+    data: {
+      amount: cartTotal,
+      custId: "khavin_testing",
+    },
+  });
+
+  if (resp.data === "success" && resp.status === 200) {
+    window.location.href = "http://localhost:5000/payment"; //get
+  }
+};
+*/
+
 const CheckoutPage = ({ items, cartTotal }) => {
   return (
     <CheckoutPageContainer>
@@ -42,7 +60,7 @@ const CheckoutPage = ({ items, cartTotal }) => {
       <TotalContainer>
         <span>TOTAL: {cartTotal}</span>
       </TotalContainer>
-      {!cartTotal ? <PayButton price={cartTotal} /> : null}
+      {cartTotal ? <PayButton price={cartTotal} /> : null}
     </CheckoutPageContainer>
   );
 };
